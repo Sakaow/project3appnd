@@ -1,6 +1,6 @@
 // API from OpenWeather app
 const urlMain = 'http://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&APPID=d2beea9d62f89cc0c42188370656defd';
+const apiKey = `&appid=${config.apiKey}`;
 const unit = '&units=metric';
 
 const zipcode = document.querySelector('#zip');
