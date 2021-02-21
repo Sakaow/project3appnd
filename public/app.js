@@ -5,7 +5,6 @@ const unit = '&units=metric';
 
 const zipcode = document.querySelector('#zip');
 const feelings = document.querySelector('#feelings');
-// const icon = document.querySelector('#icon');
 const temp = document.querySelector('#temp');
 const enterKey = document.querySelector('.zipcode');
 
@@ -25,25 +24,27 @@ function enterPressed(event) {
 }
 
 function performAction(e) {
+    
     let zip = zipcode.value;
     let feel = feelings.value;
     let url = urlMain + zip + apiKey + unit;
+    
     if (zip === '' || zip.length < 5 || zip.length > 5) {
         alert("Please enter 5 digit zip code");
     }
     else {
         getWeather(url)
             .then(function (data) {
-                console.log(data);
-                const icon = data.weather[0].icon;
+                console.log(data);                
                 const date = newDate;
-                const temp = data.main.temp.toFixed();
-                postData('/addData', { date: date, temperater:temp, icon, feeling:feel });
-
+                const icon = data.weather[0].icon;
+                const temp = data.main.temp.toFixed(0);
+                postData('/addData', { date, temp, icon, feel });
+                updateUI(); // update UI using the same properties post to the server
             })
-            .then(
-                updateUI()
-            )           
+            // .then(
+            //     updateUI()
+            // )           
     }
 }
 
@@ -75,17 +76,15 @@ const postData = async (url, data) => {
 
 // Update the webpage UI function
 const updateUI = async () => {
-    const request = await fetch('/getData');
+    const response = await fetch('/getData');
     try {
-        const allDataUpdate = await request.json();
+        const allDataUpdate = await response.json();
+        console.log(allDataUpdate);
         document.querySelector('#date').innerHTML = `Date: ${allDataUpdate.date}`;
         document.querySelector('#temp').innerHTML = `Temperature: ${allDataUpdate.temp}°C`;
         document.querySelector('#icon').innerHTML = `<img class="icon" src="http://openweathermap.org/img/wn/${allDataUpdate.icon}.png" alt="icon">`;
         document.querySelector('#content').innerHTML = `Feelings: ${allDataUpdate.feel}`;       
 
-        // reset ,
-        zip.value = '';
-        feeling.value ='';
     } catch (error) {
         console.log("error", error);
     }

@@ -1,5 +1,5 @@
-const urlMain = 'http://api.openweathermap.org/data/2.5/weather?q=';
-const apiKey = '&APPID=d2beea9d62f89cc0c42188370656defd';
+// const urlMain = 'http://api.openweathermap.org/data/2.5/weather?q=';
+// const apiKey = '&APPID=d2beea9d62f89cc0c42188370656defd';
 const unit = '&units=metric';
 let city = 'Washington,US';
 
